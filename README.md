@@ -1,2 +1,19 @@
-# tēburu-visual-table-management-for-restaurants
-teburu is a web application focused on the visual organization and management of restaurant tables. Its primary goal is to provide an agile tool that allows establishments to instantly identify which tables are free, occupied, or being cleaned, thereby optimizing customer flow.
+<div align="center">
+  <a>
+    <img width="501" height="501" alt="teburu_Prancheta 1 cópia" src="https://github.com/user-attachments/assets/55f97844-c71a-4a7e-85c6-7dce621040af" />
+  </a>
+  <br><br>
+
+  _机_ | _Visual Table Management for Restaurants_
+
+  <a href="https://github.com/sponsors/lluckymou?frequency=one-time">
+    <img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?logo=github-sponsors&style=flat-square" alt="Sponsor">
+  </a>
+</div>
+
+---
+
+**tēburu** is a web application focused on the visual organization and management of restaurant tables. Its primary goal is to provide an agile tool that allows establishments to instantly identify which tables are free, occupied, or being cleaned, thereby optimizing customer flow.
+
+
+---
