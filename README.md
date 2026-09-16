@@ -4,13 +4,13 @@
   </a>
   <br><br>
 
-  _机_ | _Visual Table Management for Restaurants_
+  _Visual Table Management for Restaurants_
 
 </div>
 
 ---
 
-**tēburu** is a web application focused on the visual organization and management of restaurant tables. Its primary goal is to provide an agile tool that allows establishments to instantly identify which tables are free, occupied, or being cleaned, thereby optimizing customer flow.
+**tēburu | 机** is a web application focused on the visual organization and management of restaurant tables. Its primary goal is to provide an agile tool that allows establishments to instantly identify which tables are free, occupied, or being cleaned, thereby optimizing customer flow.
 
 
 ---
