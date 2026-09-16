@@ -1,6 +1,6 @@
 <div align="center">
   <a>
-    <img width="501" height="501" alt="teburu_Prancheta 1 cópia" src="https://github.com/user-attachments/assets/55f97844-c71a-4a7e-85c6-7dce621040af" />
+    <img width="501" height="250" alt="teburu_Prancheta 1 cópia" src="https://github.com/user-attachments/assets/55f97844-c71a-4a7e-85c6-7dce621040af" />
   </a>
   <br><br>
 
