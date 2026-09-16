@@ -4,7 +4,7 @@
   </a>
   <br><br>
 
-  _机_   | _Visual Table Management for Restaurants_
+  _机_ | _Visual Table Management for Restaurants_
 
 </div>
 
