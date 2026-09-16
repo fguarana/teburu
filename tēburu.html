@@ -1,0 +1,719 @@
+<!DOCTYPE html><html class="h-full bg-[#121712] text-[#D7D7D0]" lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>tēburu | Gestão de Salão</title>
+<!-- Tailwind CSS CDN with forms and container queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            palette: {
+              base: '#121712',         /* Distinctive Lack of Hue */
+              sidebar: '#151b15',      /* Slightly lighter forest dark */
+              surface: '#1b231b',      /* Card surfaces */
+              surfaceHover: '#222b22',
+              cream: '#D7D7D0',        /* Subtle Shadow */
+              olive: '#404125',        /* Scorched Metal */
+              gold: '#CCAB7A',         /* Burning Gold */
+              bonsai: '#767C53'        /* Bonsai green */
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(118, 124, 83, 0.25);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(204, 171, 122, 0.35);
+    }
+  </style>
+</head>
+<body class="h-full font-sans antialiased bg-[#121712] text-[#D7D7D0] flex overflow-hidden select-none">
+<!-- BEGIN: Minimal Sidebar -->
+<aside class="w-64 border-r border-[#404125]/50 bg-[#151b15]/90 flex flex-col justify-between shrink-0 backdrop-blur-xl">
+<!-- Top Branding & Navigation -->
+<div class="flex flex-col">
+<!-- Brand Logo -->
+<div class="h-16 px-6 flex items-center gap-3 border-b border-[#404125]/40"><div class="w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-[#CCAB7A]/40 flex items-center justify-center bg-[#CCAB7A]/10 shadow-sm"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUssDJJlLXCbGY6iTKLywPtYz6ZhQ4PNOVoRKCxzo7HT5U9Ra8po_i9NaIAOBqdRA-quhhJWRHPrl6iCVCYbzQle9aq9iZta_1SEo7RrMaw2D-WiVlZEEk_KzsU3A8RQw4H5dVl2dFHD0CNJZJ9ohNW0iCluwRhWJ8Zpu93TsTKML9EwJZH3yELStsmTvQsAaS3jfoJt2yst9IH4DsmHy1Dgzd4z2QJpflRCNy84EAZnNU-0rMu8RC9vQS4P1oiQzt3Ms" alt="tēburu" class="w-full h-full object-cover"></div><div><h1 class="text-sm font-semibold tracking-tight text-[#D7D7D0] leading-none">tēburu</h1><span class="text-[11px] text-[#D7D7D0]/60 font-medium">Gestão de Salão</span></div></div>
+<!-- Navigation Links -->
+<nav class="p-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#1e261e] text-[#D7D7D0] text-xs font-medium shadow-sm transition border border-[#CCAB7A]/40" href="#">
+<span class="material-symbols-outlined text-[18px] text-[#CCAB7A]">grid_view</span>
+<span class="font-medium text-[#D7D7D0]">Salão &amp; Mesas</span>
+</a>
+<a class="flex items-center justify-between px-3 py-2.5 rounded-xl text-[#D7D7D0]/70 hover:text-[#D7D7D0] hover:bg-[#1b231b] text-xs font-medium transition" href="#" onclick="openReservationsListModal()">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="">Reservas &amp; Espera</span>
+</div>
+<span class="px-1.5 py-0.2 rounded-full bg-[#1b231b] border border-[#404125] text-[10px] text-[#CCAB7A] font-mono">3</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#D7D7D0]/70 hover:text-[#D7D7D0] hover:bg-[#1b231b] text-xs font-medium transition group" href="#" onclick="openConfigModal()">
+<span class="material-symbols-outlined text-[18px] group-hover:text-[#CCAB7A] transition">tune</span>
+<span class="">Configurar Restaurante</span>
+</a>
+</nav>
+</div>
+<!-- Quick Actions in Sidebar -->
+<div class="p-4 space-y-3 border-t border-[#404125]/40">
+<button class="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl border border-[#404125]/80 hover:border-[#CCAB7A]/50 bg-[#1b231b]/60 hover:bg-[#1b231b] text-[#D7D7D0]/80 hover:text-[#D7D7D0] text-xs font-medium transition" onclick="openConfigModal()">
+<span class="material-symbols-outlined text-[16px] text-[#CCAB7A]">settings</span>
+<span class="">Ajustes do Salão</span>
+</button>
+<!-- Waiter / Attendant Profile (Discreet) -->
+<div class="flex items-center justify-between pt-2 border-t border-[#404125]/30">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded-full bg-[#1b231b] border border-[#404125] flex items-center justify-center text-[11px] font-semibold text-[#D7D7D0]">
+            CL
+          </div>
+<div class="flex flex-col">
+<span class="text-xs font-medium text-[#D7D7D0] leading-tight">Chang Ling</span>
+<span class="text-[10px] text-[#767C53] flex items-center gap-1 font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-[#767C53] inline-block"></span> Ativo
+            </span>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- END: Minimal Sidebar -->
+<!-- BEGIN: Main Area -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#121712]">
+<!-- Topbar: Clean, Direct & Focused -->
+<header class="h-16 px-8 border-b border-[#404125]/50 bg-[#151b15]/75 backdrop-blur-md flex items-center justify-between shrink-0">
+<!-- Live Status Metrics (Minimal summary) -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-xs font-medium">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#767C53]"></span>
+<span class="text-[#D7D7D0]/70">Livres:</span>
+<span class="text-[#D7D7D0] font-semibold" id="top-free">3</span>
+</div>
+<span class="text-[#404125] font-light">•</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#D7D7D0]" style="background-color: rgb(192, 48, 39);"></span>
+<span class="text-[#D7D7D0]/70">Ocupadas:</span>
+<span class="text-[#D7D7D0] font-semibold" id="top-occupied">3</span>
+</div>
+<span class="text-[#404125] font-light">•</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#CCAB7A]"></span>
+<span class="text-[#D7D7D0]/70">Reservadas:</span>
+<span class="text-[#D7D7D0] font-semibold" id="top-reserved">1</span>
+</div>
+<span class="text-[#404125] font-light">•</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#404125] ring-1 ring-[#CCAB7A]/40"></span>
+<span class="text-[#D7D7D0]/70">Limpeza:</span>
+<span class="text-[#D7D7D0] font-semibold" id="top-cleaning">1</span>
+</div>
+</div>
+<!-- Subtle Vertical Divider -->
+<div class="h-4 w-px bg-[#404125]/60 hidden md:block"></div>
+<!-- Filter Pill Chips -->
+<div class="hidden md:flex items-center gap-1 bg-[#151b15] p-1 rounded-xl border border-[#404125]/70">
+<button class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium transition bg-[#767C53]/30 text-[#D7D7D0] border border-[#767C53]/50" id="btn-filter-all" onclick="filterTablesByStatus('all')">Todos</button>
+<button class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition" id="btn-filter-free" onclick="filterTablesByStatus('free')">Livres</button>
+<button class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition" id="btn-filter-occupied" onclick="filterTablesByStatus('occupied')">Ocupadas</button>
+<button class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition" id="btn-filter-reserved" onclick="filterTablesByStatus('reserved')">Reservadas</button>
+<button class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition" id="btn-filter-cleaning" onclick="filterTablesByStatus('cleaning')">Limpeza</button>
+</div>
+</div>
+<!-- Action Button -->
+<div class="flex items-center gap-4 pl-4 shrink-0">
+<div class="h-4 w-px bg-[#404125]/60 hidden md:block"></div>
+<button class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#CCAB7A] hover:bg-[#d8bb8c] text-[#121712] font-semibold text-xs shadow-md shadow-[#121712]/50 transition border border-[#CCAB7A]" onclick="openNewOrderModal()">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span class="">Nova Reserva / Mesa</span>
+</button>
+</div>
+</header>
+<!-- Main Floor Canvas: Spacious, airy and focused -->
+<main class="flex-1 overflow-y-auto p-8 lg:p-12 flex flex-col justify-between">
+<div class="max-w-6xl mx-auto w-full">
+<!-- Floor Header Label -->
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-base font-semibold text-[#D7D7D0] tracking-tight">Salão Principal</h2>
+<p class="text-xs text-[#D7D7D0]/50">8 Mesas • Selecione uma mesa para alterar o status ou gerenciar</p>
+</div>
+<div class="flex items-center gap-4 text-xs text-[#D7D7D0]/70">
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#767C53]"></span> Livre</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#D7D7D0]" style="background-color: rgb(192, 48, 39);"></span> Ocupada</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#CCAB7A]"></span> Reservada</span>
+<span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#404125] ring-1 ring-[#CCAB7A]/40"></span> Limpeza</span>
+</div>
+</div>
+<!-- Tables Grid: High contrast, clean cards with gentle colored accents -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="tablesContainer">
+<!-- Mesa 01 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#D7D7D0]/30 hover:border-[#D7D7D0]/70 transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-black/40" data-status="occupied" data-table="T01" id="card-T01" onclick="openTableDetails('T01')" style="border-color: rgba(192, 48, 39, 0.4);">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 01</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">4 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0] mt-2 truncate guest-label">John Doe</p>
+<p class="text-[11px] text-[#D7D7D0]/55 mt-0.5 time-label">19:30 • há 45m</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#D7D7D0]/15 text-[#D7D7D0] border border-[#D7D7D0]/40" style="background-color: rgba(192, 48, 39, 0.18); color: rgb(229, 84, 75); border-color: rgba(192, 48, 39, 0.5);">Ocupada</span>
+</div>
+</div>
+<!-- Mesa 02 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#D7D7D0]/30 hover:border-[#D7D7D0]/70 transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-black/40" data-status="occupied" data-table="T02" id="card-T02" onclick="openTableDetails('T02')" style="border-color: rgba(192, 48, 39, 0.4);">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 02</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">4 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0] mt-2 truncate guest-label">Emma Clark</p>
+<p class="text-[11px] text-[#D7D7D0]/55 mt-0.5 time-label">19:45 • há 30m</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#D7D7D0]/15 text-[#D7D7D0] border border-[#D7D7D0]/40" style="background-color: rgba(192, 48, 39, 0.18); color: rgb(229, 84, 75); border-color: rgba(192, 48, 39, 0.5);">Ocupada</span>
+</div>
+</div>
+<!-- Mesa 03 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#767C53]/45 hover:border-[#767C53] transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-black/40" data-status="free" data-table="T03" id="card-T03" onclick="openTableDetails('T03')" style="opacity: 1; pointer-events: auto;">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 03</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">4 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0]/60 mt-2 guest-label">Disponível</p>
+<p class="text-[11px] text-[#767C53] mt-0.5 time-label">Pronta para check-in</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#767C53]/20 text-[#a2ab72] border border-[#767C53]/50">Livre</span>
+</div>
+</div>
+<!-- Mesa 04 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#767C53]/45 hover:border-[#767C53] transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-black/40" data-status="free" data-table="T04" id="card-T04" onclick="openTableDetails('T04')" style="opacity: 1; pointer-events: auto;">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 04</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">2 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0]/60 mt-2 guest-label">Disponível</p>
+<p class="text-[11px] text-[#767C53] mt-0.5 time-label">Pronta para check-in</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#767C53]/20 text-[#a2ab72] border border-[#767C53]/50">Livre</span>
+</div>
+</div>
+<!-- Mesa 05 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#404125] hover:border-[#CCAB7A]/50 transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-black/40" data-status="cleaning" data-table="T05" id="card-T05" onclick="openTableDetails('T05')" style="opacity: 1; pointer-events: auto;">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 05</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">2 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0]/60 mt-2 guest-label">Limpeza pendente</p>
+<p class="text-[11px] text-[#CCAB7A]/75 mt-0.5 time-label">Garçom acionado</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#404125]/60 text-[#D7D7D0] border border-[#404125]">Limpeza</span>
+</div>
+</div>
+<!-- Mesa 06 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#CCAB7A]/60 hover:border-[#CCAB7A] transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-[#CCAB7A]/10" data-status="reserved" data-table="T06" id="card-T06" onclick="openTableDetails('T06')" style="opacity: 1; pointer-events: auto;">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 06</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">4 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0] mt-2 truncate guest-label">Sarah K. (4p)</p>
+<p class="text-[11px] text-[#CCAB7A] mt-0.5 time-label">Reserva: 20:15</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#CCAB7A]/20 text-[#CCAB7A] border border-[#CCAB7A]/50">Reservada</span>
+</div>
+</div>
+<!-- Mesa 07 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#767C53]/45 hover:border-[#767C53] transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-black/40" data-status="free" data-table="T07" id="card-T07" onclick="openTableDetails('T07')" style="opacity: 1; pointer-events: auto;">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 07</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">2 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0]/60 mt-2 guest-label">Disponível</p>
+<p class="text-[11px] text-[#767C53] mt-0.5 time-label">Pronta para check-in</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#767C53]/20 text-[#a2ab72] border border-[#767C53]/50">Livre</span>
+</div>
+</div>
+<!-- Mesa 08 -->
+<div class="table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border border-[#D7D7D0]/30 hover:border-[#D7D7D0]/70 transition-all cursor-pointer group shadow-sm hover:shadow-lg hover:shadow-black/40" data-status="occupied" data-table="T08" id="card-T08" onclick="openTableDetails('T08')" style="border-color: rgba(192, 48, 39, 0.4);">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Mesa 08</h3>
+<span class="text-[10px] font-mono text-[#D7D7D0]/70 px-1.5 py-0.5 rounded bg-[#121712] border border-[#404125]/60">6 lug.</span>
+</div>
+<p class="text-xs font-medium text-[#D7D7D0] mt-2 truncate guest-label">David Johnson</p>
+<p class="text-[11px] text-[#D7D7D0]/55 mt-0.5 time-label">20:00 • Família</p>
+</div>
+<span class="status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#D7D7D0]/15 text-[#D7D7D0] border border-[#D7D7D0]/40" style="background-color: rgba(192, 48, 39, 0.18); color: rgb(229, 84, 75); border-color: rgba(192, 48, 39, 0.5);">Ocupada</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Minimal Bottom Bar -->
+<div class="max-w-6xl mx-auto w-full pt-8 flex items-center justify-between text-xs text-[#D7D7D0]/60 border-t border-[#404125]/40">
+<span id="quick-occupancy-txt" class="">Ocupação Atual: 50%</span>
+<span class="">Sincronizado às <span class="font-mono text-[#CCAB7A]" id="syncTime">15:36</span></span>
+</div>
+</main>
+</div>
+<!-- END: Main Area -->
+<!-- BEGIN: Table Details Drawer (Minimal & Elegant) -->
+<div class="fixed inset-0 bg-[#121712]/80 backdrop-blur-sm z-50 flex items-center justify-end hidden transition-opacity" id="tableDrawerModal">
+<div class="w-full max-w-sm h-full bg-[#151b15] border-l border-[#404125] p-6 flex flex-col justify-between shadow-2xl">
+<!-- Top Content -->
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="text-lg font-semibold text-[#D7D7D0] tracking-tight" id="drawerTableTitle">Mesa 01</h3>
+<p class="text-xs text-[#D7D7D0]/60" id="drawerTableSubtitle">Capacidade: 4 pessoas</p>
+</div>
+<button class="w-8 h-8 rounded-lg bg-[#1b231b] border border-[#404125] text-[#D7D7D0]/70 hover:text-[#D7D7D0] flex items-center justify-center transition" onclick="closeTableDetails()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Current Status -->
+<div class="p-3.5 rounded-xl bg-[#121712] border border-[#404125]/70 flex items-center justify-between">
+<span class="text-xs text-[#D7D7D0]/70">Status</span>
+<span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#D7D7D0]/15 text-[#D7D7D0] border border-[#D7D7D0]/40" id="drawerStatusBadge" style="background-color: rgba(192, 48, 39, 0.18); color: rgb(229, 84, 75); border-color: rgba(192, 48, 39, 0.5);">
+            Ocupada
+          </span>
+</div>
+<!-- Occupancy Details -->
+<div class="space-y-3">
+<span class="text-xs uppercase tracking-wider text-[#CCAB7A] font-semibold">Informações</span>
+<div class="p-4 rounded-xl bg-[#121712] border border-[#404125]/70 space-y-2.5 text-xs">
+<div class="flex justify-between">
+<span class="text-[#D7D7D0]/60">Cliente / Reserva:</span>
+<span class="font-medium text-[#D7D7D0]" id="drawerGuestName">John Doe</span>
+</div>
+<div class="flex justify-between">
+<span class="text-[#D7D7D0]/60">Horário:</span>
+<span class="font-mono text-[#D7D7D0]" id="drawerTimeIn">19:30</span>
+</div>
+<div class="flex justify-between">
+<span class="text-[#D7D7D0]/60">Comanda:</span>
+<span class="font-mono font-medium text-[#CCAB7A]" id="drawerTotalBill">R$ 240,00</span>
+</div>
+</div>
+</div>
+<!-- Quick Status Change Actions -->
+<div class="space-y-2">
+<span class="text-xs uppercase tracking-wider text-[#CCAB7A] font-semibold">Alterar Status</span>
+<div class="grid grid-cols-2 gap-2">
+<button class="p-2.5 rounded-xl border border-[#767C53]/40 hover:bg-[#767C53]/20 text-[#a2ab72] text-xs font-medium transition flex items-center justify-center gap-2" onclick="setTableStatus('free')">
+<span class="w-2 h-2 rounded-full bg-[#767C53]"></span> Livre
+            </button>
+<button class="p-2.5 rounded-xl border border-[#D7D7D0]/40 hover:bg-[#D7D7D0]/10 text-[#D7D7D0] text-xs font-medium transition flex items-center justify-center gap-2" onclick="setTableStatus('occupied')"><span class="w-2 h-2 rounded-full" style="background-color: rgb(192, 48, 39);"></span> Ocupada</button>
+<button class="p-2.5 rounded-xl border border-[#CCAB7A]/50 hover:bg-[#CCAB7A]/20 text-[#CCAB7A] text-xs font-medium transition flex items-center justify-center gap-2" onclick="setTableStatus('reserved')">
+<span class="w-2 h-2 rounded-full bg-[#CCAB7A]"></span> Reservada
+            </button>
+<button class="p-2.5 rounded-xl border border-[#404125] hover:bg-[#404125]/40 text-[#D7D7D0]/80 text-xs font-medium transition flex items-center justify-center gap-2" onclick="setTableStatus('cleaning')">
+<span class="w-2 h-2 rounded-full bg-[#404125] ring-1 ring-[#CCAB7A]/40"></span> Limpeza
+            </button>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="pt-4 border-t border-[#404125]/40">
+<button class="w-full py-2.5 bg-[#1b231b] hover:bg-[#222b22] border border-[#404125] text-[#D7D7D0] hover:text-white text-xs font-medium rounded-xl transition" onclick="closeTableDetails()">
+          Fechar
+        </button>
+</div>
+</div>
+</div>
+<!-- END: Table Details Drawer -->
+<!-- BEGIN: New Reservation / Walk-in Modal -->
+<div class="fixed inset-0 bg-[#121712]/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="newReservationModal">
+<div class="w-full max-w-sm bg-[#151b15] border border-[#404125] rounded-2xl p-6 shadow-2xl space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Nova Abertura / Reserva</h3>
+<button class="text-[#D7D7D0]/60 hover:text-[#D7D7D0]" onclick="closeNewOrderModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<form class="space-y-3 text-xs" onsubmit="handleNewReservation(event)">
+<div>
+<label class="block text-[#D7D7D0]/70 mb-1">Nome do Cliente</label>
+<input class="w-full bg-[#121712] border border-[#404125] rounded-xl px-3 py-2 text-[#D7D7D0] placeholder-[#D7D7D0]/30 focus:outline-none focus:border-[#CCAB7A]" id="newGuestName" placeholder="Ex: Felipe Amorim" required="" type="text">
+</div>
+<div class="grid grid-cols-2 gap-2">
+<div>
+<label class="block text-[#D7D7D0]/70 mb-1">Pessoas</label>
+<select class="w-full bg-[#121712] border border-[#404125] rounded-xl px-2.5 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]" id="newGuestParty">
+<option value="2">2 Lugares</option>
+<option selected="" value="4">4 Lugares</option>
+<option value="6">6 Lugares</option>
+</select>
+</div>
+<div>
+<label class="block text-[#D7D7D0]/70 mb-1">Mesa</label>
+<select class="w-full bg-[#121712] border border-[#404125] rounded-xl px-2.5 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]" id="newGuestTable">
+<option value="T03">Mesa 03 (4 lug.)</option>
+<option value="T04">Mesa 04 (2 lug.)</option>
+<option value="T07">Mesa 07 (2 lug.)</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block text-[#D7D7D0]/70 mb-1">Tipo</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="flex items-center gap-2 p-2 rounded-xl bg-[#121712] border border-[#404125] cursor-pointer hover:border-[#CCAB7A]/50">
+<input checked="" class="text-[#CCAB7A] focus:ring-0" name="resType" type="radio" value="occupied">
+<span class="">Sentar Agora</span>
+</label>
+<label class="flex items-center gap-2 p-2 rounded-xl bg-[#121712] border border-[#404125] cursor-pointer hover:border-[#CCAB7A]/50">
+<input class="text-[#CCAB7A] focus:ring-0" name="resType" type="radio" value="reserved">
+<span class="">Agendar</span>
+</label>
+</div>
+</div>
+<div class="pt-3 flex items-center justify-end gap-2">
+<button class="px-3 py-2 text-[#D7D7D0]/60 hover:text-[#D7D7D0] transition" onclick="closeNewOrderModal()" type="button">Cancelar</button>
+<button class="px-4 py-2 bg-[#CCAB7A] hover:bg-[#d8bb8c] text-[#121712] font-semibold rounded-xl transition shadow" type="submit">Confirmar</button>
+</div>
+</form>
+</div>
+</div>
+<!-- END: New Reservation Modal -->
+<!-- BEGIN: Configuração do Restaurante Modal -->
+<div class="fixed inset-0 bg-[#121712]/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="configModal">
+<div class="w-full max-w-md bg-[#151b15] border border-[#404125] rounded-2xl p-6 shadow-2xl space-y-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-[#1b231b] border border-[#404125] flex items-center justify-center text-[#CCAB7A]">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Configurar Restaurante</h3>
+<p class="text-[11px] text-[#D7D7D0]/60">Ajustes gerais do salão e operação</p>
+</div>
+</div>
+<button class="text-[#D7D7D0]/60 hover:text-[#D7D7D0]" onclick="closeConfigModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="space-y-4 text-xs">
+<div>
+<label class="block text-[#D7D7D0]/70 mb-1">Nome do Restaurante</label>
+<input class="w-full bg-[#121712] border border-[#404125] rounded-xl px-3 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]" type="text" value="tēburu">
+</div>
+<div class="grid grid-cols-2 gap-3">
+<div>
+<label class="block text-[#D7D7D0]/70 mb-1">Capacidade Total</label>
+<input class="w-full bg-[#121712]/70 border border-[#404125]/70 rounded-xl px-3 py-2 text-[#D7D7D0]/70" readonly="" type="text" value="8 Mesas • 30 Lugares">
+</div>
+<div>
+<label class="block text-[#D7D7D0]/70 mb-1">Tempo Médio de Mesa</label>
+<input class="w-full bg-[#121712] border border-[#404125] rounded-xl px-3 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]" type="text" value="1h 30m">
+</div>
+</div>
+<div class="p-3 bg-[#121712] rounded-xl border border-[#404125]/80 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[#D7D7D0]/80">Notificar limpeza automática</span>
+<input checked="" class="rounded border-[#404125] bg-[#1b231b] text-[#767C53] focus:ring-0" type="checkbox">
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[#D7D7D0]/80">Aceitar reservas simultâneas</span>
+<input checked="" class="rounded border-[#404125] bg-[#1b231b] text-[#CCAB7A] focus:ring-0" type="checkbox">
+</div>
+</div>
+</div>
+<div class="pt-2 flex items-center justify-end gap-2 text-xs">
+<button class="px-3 py-2 text-[#D7D7D0]/60 hover:text-[#D7D7D0] transition" onclick="closeConfigModal()" type="button">Fechar</button>
+<button class="px-4 py-2 bg-[#CCAB7A] hover:bg-[#d8bb8c] text-[#121712] font-semibold rounded-xl transition shadow" onclick="closeConfigModal()" type="button">Salvar Alterações</button>
+</div>
+</div>
+</div>
+<!-- END: Configuração do Restaurante Modal -->
+<!-- BEGIN: Simple Reservations List Modal -->
+<div class="fixed inset-0 bg-[#121712]/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden" id="reservationsListModal">
+<div class="w-full max-w-md bg-[#151b15] border border-[#404125] rounded-2xl p-6 shadow-2xl space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="text-sm font-semibold text-[#D7D7D0]">Reservas &amp; Fila de Espera</h3>
+<p class="text-[11px] text-[#D7D7D0]/60">Atendimento do turno da noite</p>
+</div>
+<button class="text-[#D7D7D0]/60 hover:text-[#D7D7D0]" onclick="closeReservationsListModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="space-y-2 text-xs">
+<div class="p-3 bg-[#121712] rounded-xl border border-[#CCAB7A]/50 flex items-center justify-between">
+<div>
+<span class="font-medium text-[#D7D7D0]">Sarah K. (4 pessoas)</span>
+<p class="text-[11px] text-[#CCAB7A]">Mesa 06 • Chegada prevista: 20:15</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] bg-[#CCAB7A]/20 text-[#CCAB7A] border border-[#CCAB7A]/40 font-mono">Reserva</span>
+</div>
+<div class="p-3 bg-[#121712] rounded-xl border border-[#404125] flex items-center justify-between">
+<div>
+<span class="font-medium text-[#D7D7D0]">Carlos Mendes (2 pessoas)</span>
+<p class="text-[11px] text-[#D7D7D0]/60">Aguardando mesa de 2 lugares • 10 min</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] bg-[#1b231b] border border-[#404125] text-[#D7D7D0]/80 font-mono">Fila 1</span>
+</div>
+<div class="p-3 bg-[#121712] rounded-xl border border-[#404125] flex items-center justify-between">
+<div>
+<span class="font-medium text-[#D7D7D0]">Beatriz Lima (4 pessoas)</span>
+<p class="text-[11px] text-[#D7D7D0]/60">Aguardando mesa de 4 lugares • 5 min</p>
+</div>
+<span class="px-2 py-0.5 rounded text-[10px] bg-[#1b231b] border border-[#404125] text-[#D7D7D0]/80 font-mono">Fila 2</span>
+</div>
+</div>
+<div class="pt-2 flex justify-end text-xs">
+<button class="px-4 py-2 bg-[#1b231b] hover:bg-[#222b22] border border-[#404125] text-[#D7D7D0] font-medium rounded-xl transition" onclick="closeReservationsListModal()">Fechar</button>
+</div>
+</div>
+</div>
+<!-- END: Simple Reservations List Modal -->
+<!-- Logic Script -->
+<script>
+    const tablesData = {
+      'T01': { id: 'T01', label: 'Mesa 01', capacity: 4, status: 'occupied', guest: 'John Doe', time: '19:30', bill: 'R$ 240,00' },
+      'T02': { id: 'T02', label: 'Mesa 02', capacity: 4, status: 'occupied', guest: 'Emma Clark', time: '19:45', bill: 'R$ 185,00' },
+      'T03': { id: 'T03', label: 'Mesa 03', capacity: 4, status: 'free', guest: 'Disponível', time: '--:--', bill: 'R$ 0,00' },
+      'T04': { id: 'T04', label: 'Mesa 04', capacity: 2, status: 'free', guest: 'Disponível', time: '--:--', bill: 'R$ 0,00' },
+      'T05': { id: 'T05', label: 'Mesa 05', capacity: 2, status: 'cleaning', guest: 'Em Limpeza', time: '--:--', bill: 'R$ 0,00' },
+      'T06': { id: 'T06', label: 'Mesa 06', capacity: 4, status: 'reserved', guest: 'Sarah K. (4p)', time: '20:15', bill: 'R$ 0,00' },
+      'T07': { id: 'T07', label: 'Mesa 07', capacity: 2, status: 'free', guest: 'Disponível', time: '--:--', bill: 'R$ 0,00' },
+      'T08': { id: 'T08', label: 'Mesa 08', capacity: 6, status: 'occupied', guest: 'David Johnson', time: '20:00', bill: 'R$ 420,00' }
+    };
+
+    let activeTableId = null;
+    let currentFilter = 'all';
+
+    function openTableDetails(id) {
+      activeTableId = id;
+      const t = tablesData[id];
+      if (!t) return;
+
+      document.getElementById('drawerTableTitle').innerText = t.label;
+      document.getElementById('drawerTableSubtitle').innerText = `Capacidade: ${t.capacity} pessoas`;
+      document.getElementById('drawerGuestName').innerText = t.guest;
+      document.getElementById('drawerTimeIn').innerText = t.time;
+      document.getElementById('drawerTotalBill').innerText = t.bill;
+
+      updateDrawerStatusBadge(t.status);
+      document.getElementById('tableDrawerModal').classList.remove('hidden');
+    }
+
+    function closeTableDetails() {
+      document.getElementById('tableDrawerModal').classList.add('hidden');
+    }
+
+    function updateDrawerStatusBadge(status) {
+      const badge = document.getElementById('drawerStatusBadge');
+      if (status === 'free') {
+        badge.className = 'text-xs font-semibold px-2.5 py-1 rounded-full bg-[#767C53]/20 text-[#a2ab72] border border-[#767C53]/50';
+        badge.innerText = 'Livre';
+      } else if (status === 'occupied') {
+        badge.className = 'text-xs font-semibold px-2.5 py-1 rounded-full bg-[#D7D7D0]/15 text-[#D7D7D0] border border-[#D7D7D0]/40';
+        badge.innerText = 'Ocupada';
+      } else if (status === 'reserved') {
+        badge.className = 'text-xs font-semibold px-2.5 py-1 rounded-full bg-[#CCAB7A]/20 text-[#CCAB7A] border border-[#CCAB7A]/50';
+        badge.innerText = 'Reservada';
+      } else if (status === 'cleaning') {
+        badge.className = 'text-xs font-semibold px-2.5 py-1 rounded-full bg-[#404125]/60 text-[#D7D7D0] border border-[#404125]';
+        badge.innerText = 'Em Limpeza';
+      }
+    }
+
+    function setTableStatus(status) {
+      if (!activeTableId || !tablesData[activeTableId]) return;
+      const t = tablesData[activeTableId];
+      t.status = status;
+
+      if (status === 'free') {
+        t.guest = 'Disponível';
+        t.bill = 'R$ 0,00';
+        t.time = '--:--';
+      } else if (status === 'cleaning') {
+        t.guest = 'Em Limpeza';
+      }
+
+      renderTableCard(activeTableId);
+      updateDrawerStatusBadge(status);
+      updateTopMetrics();
+      applyFilter(currentFilter);
+    }
+
+    function renderTableCard(id) {
+      const t = tablesData[id];
+      const card = document.getElementById(`card-${id}`);
+      if (!card) return;
+
+      card.setAttribute('data-status', t.status);
+      const guestLabel = card.querySelector('.guest-label');
+      const timeLabel = card.querySelector('.time-label');
+      const statusBadge = card.querySelector('.status-badge');
+
+      // Reset card basic styles
+      card.className = "table-card relative p-5 rounded-2xl bg-[#1b231b]/80 border transition-all cursor-pointer group shadow-sm hover:shadow-lg";
+
+      if (t.status === 'free') {
+        card.classList.add('border-[#767C53]/45', 'hover:border-[#767C53]', 'hover:shadow-black/40');
+        statusBadge.className = 'status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#767C53]/20 text-[#a2ab72] border border-[#767C53]/50';
+        statusBadge.innerText = 'Livre';
+        guestLabel.innerText = 'Disponível';
+        guestLabel.className = 'text-xs font-medium text-[#D7D7D0]/60 mt-2 guest-label';
+        timeLabel.innerText = 'Pronta para check-in';
+        timeLabel.className = 'text-[11px] text-[#767C53] mt-0.5 time-label';
+      } else if (t.status === 'occupied') {
+        card.classList.add('border-[#D7D7D0]/30', 'hover:border-[#D7D7D0]/70', 'hover:shadow-black/40');
+        statusBadge.className = 'status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#D7D7D0]/15 text-[#D7D7D0] border border-[#D7D7D0]/40';
+        statusBadge.innerText = 'Ocupada';
+        guestLabel.innerText = t.guest;
+        guestLabel.className = 'text-xs font-medium text-[#D7D7D0] mt-2 truncate guest-label';
+        timeLabel.innerText = `${t.time} • Em atendimento`;
+        timeLabel.className = 'text-[11px] text-[#D7D7D0]/55 mt-0.5 time-label';
+      } else if (t.status === 'reserved') {
+        card.classList.add('border-[#CCAB7A]/60', 'hover:border-[#CCAB7A]', 'hover:shadow-[#CCAB7A]/10');
+        statusBadge.className = 'status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#CCAB7A]/20 text-[#CCAB7A] border border-[#CCAB7A]/50';
+        statusBadge.innerText = 'Reservada';
+        guestLabel.innerText = t.guest;
+        guestLabel.className = 'text-xs font-medium text-[#D7D7D0] mt-2 truncate guest-label';
+        timeLabel.innerText = `Reserva: ${t.time}`;
+        timeLabel.className = 'text-[11px] text-[#CCAB7A] mt-0.5 time-label';
+      } else if (t.status === 'cleaning') {
+        card.classList.add('border-[#404125]', 'hover:border-[#CCAB7A]/50', 'hover:shadow-black/40');
+        statusBadge.className = 'status-badge text-[11px] font-medium px-2 py-0.5 rounded-full bg-[#404125]/60 text-[#D7D7D0] border border-[#404125]';
+        statusBadge.innerText = 'Limpeza';
+        guestLabel.innerText = 'Limpeza pendente';
+        guestLabel.className = 'text-xs font-medium text-[#D7D7D0]/60 mt-2 guest-label';
+        timeLabel.innerText = 'Garçom acionado';
+        timeLabel.className = 'text-[11px] text-[#CCAB7A]/75 mt-0.5 time-label';
+      }
+    }
+
+    function updateTopMetrics() {
+      let free = 0, occupied = 0, reserved = 0, cleaning = 0;
+      const list = Object.values(tablesData);
+      list.forEach(t => {
+        if (t.status === 'free') free++;
+        else if (t.status === 'occupied') occupied++;
+        else if (t.status === 'reserved') reserved++;
+        else if (t.status === 'cleaning') cleaning++;
+      });
+
+      document.getElementById('top-free').innerText = free;
+      document.getElementById('top-occupied').innerText = occupied;
+      document.getElementById('top-reserved').innerText = reserved;
+      document.getElementById('top-cleaning').innerText = cleaning;
+
+      const pct = Math.round(((occupied + reserved) / list.length) * 100);
+      document.getElementById('quick-occupancy-txt').innerText = `Ocupação Atual: ${pct}%`;
+    }
+
+    function filterTablesByStatus(status) {
+      currentFilter = status;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.className = 'filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition';
+      });
+      const activeBtn = document.getElementById(`btn-filter-${status}`);
+      if (activeBtn) {
+        activeBtn.className = 'filter-btn px-2.5 py-1 text-xs rounded-lg font-medium transition bg-[#767C53]/30 text-[#D7D7D0] border border-[#767C53]/50';
+      }
+      applyFilter(status);
+    }
+
+    function applyFilter(status) {
+      document.querySelectorAll('.table-card').forEach(card => {
+        const cardStatus = card.getAttribute('data-status');
+        if (status === 'all' || cardStatus === status) {
+          card.style.opacity = '1';
+          card.style.pointerEvents = 'auto';
+        } else {
+          card.style.opacity = '0.2';
+          card.style.pointerEvents = 'none';
+        }
+      });
+    }
+
+    // Modal helpers
+    function openNewOrderModal() {
+      document.getElementById('newReservationModal').classList.remove('hidden');
+    }
+    function closeNewOrderModal() {
+      document.getElementById('newReservationModal').classList.add('hidden');
+    }
+
+    function openConfigModal() {
+      document.getElementById('configModal').classList.remove('hidden');
+    }
+    function closeConfigModal() {
+      document.getElementById('configModal').classList.add('hidden');
+    }
+
+    function openReservationsListModal() {
+      document.getElementById('reservationsListModal').classList.remove('hidden');
+    }
+    function closeReservationsListModal() {
+      document.getElementById('reservationsListModal').classList.add('hidden');
+    }
+
+    function handleNewReservation(e) {
+      e.preventDefault();
+      const guest = document.getElementById('newGuestName').value;
+      const tableId = document.getElementById('newGuestTable').value;
+      const type = document.querySelector('input[name="resType"]:checked').value;
+
+      if (tablesData[tableId]) {
+        tablesData[tableId].status = type;
+        tablesData[tableId].guest = guest;
+        tablesData[tableId].time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        renderTableCard(tableId);
+        updateTopMetrics();
+      }
+
+      closeNewOrderModal();
+    }
+
+    // Live Clock
+    setInterval(() => {
+      const now = new Date();
+      const syncElem = document.getElementById('syncTime');
+      if (syncElem) syncElem.innerText = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }, 1000);
+
+    // Initial metrics setup
+    updateTopMetrics();
+  </script>
+
+
+
+
+</body></html>
