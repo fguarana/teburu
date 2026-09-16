@@ -6,9 +6,6 @@
 
   _机_ | _Visual Table Management for Restaurants_
 
-  <a href="https://github.com/sponsors/lluckymou?frequency=one-time">
-    <img src="https://img.shields.io/badge/Sponsor-%E2%9D%A4-ea4aaa?logo=github-sponsors&style=flat-square" alt="Sponsor">
-  </a>
 </div>
 
 ---
