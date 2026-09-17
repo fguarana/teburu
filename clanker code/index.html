@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html class="h-full bg-[#121712] text-[#D7D7D0]" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>tēburu | Gestão de Salão</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+
+            theme: {
+                extend: {
+                    colors: {
+                        palette: {
+                            base: '#121712',
+                            sidebar: '#151b15',
+                            surface: '#1b231b',
+                            surfaceHover: '#222b22',
+                            cream: '#D7D7D0',
+                            olive: '#404125',
+                            gold: '#CCAB7A',
+                            bonsai: '#767C53'
+                        }
+                    },
+
+                    fontFamily: {
+                        sans: [
+                            'Inter',
+                            'system-ui',
+                            '-apple-system',
+                            'BlinkMacSystemFont',
+                            'Segoe UI',
+                            'Roboto',
+                            'sans-serif'
+                        ]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(118, 124, 83, 0.25);
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(204, 171, 122, 0.35);
+        }
+    </style>
+</head>
+
+
+<body
+    class="h-full font-sans antialiased bg-[#121712] text-[#D7D7D0] flex overflow-hidden select-none"
+>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside
+    class="w-64 border-r border-[#404125]/50 bg-[#151b15]/90 flex flex-col justify-between shrink-0 backdrop-blur-xl"
+>
+
+    <!-- Branding + Navigation -->
+
+    <div class="flex flex-col">
+
+        <!-- Brand -->
+
+        <div
+            class="h-16 px-6 flex items-center gap-3 border-b border-[#404125]/40"
+        >
+
+            <div
+                class="w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-[#CCAB7A]/40 flex items-center justify-center bg-[#CCAB7A]/10 shadow-sm"
+            >
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUssDJJlLXCbGY6iTKLywPtYz6ZhQ4PNOVoRKCxzo7HT5U9Ra8po_i9NaIAOBqdRA-quhhJWRHPrl6iCVCYbzQle9aq9iZta_1SEo7RrMaw2D-WiVlZEEk_KzsU3A8RQw4H5dVl2dFHD0CNJZJ9ohNW0iCluwRhWJ8Zpu93TsTKML9EwJZH3yELStsmTvQsAaS3jfoJt2yst9IH4DsmHy1Dgzd4z2QJpflRCNy84EAZnNU-0rMu8RC9vQS4P1oiQzt3Ms"
+                    alt="tēburu"
+                    class="w-full h-full object-cover"
+                >
+            </div>
+
+            <div>
+                <h1
+                    class="text-sm font-semibold tracking-tight text-[#D7D7D0] leading-none"
+                >
+                    tēburu
+                </h1>
+
+                <span
+                    class="text-[11px] text-[#D7D7D0]/60 font-medium"
+                >
+                    Gestão de Salão
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <nav class="p-3 space-y-1">
+
+            <!-- Salão -->
+
+            <a
+                class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#1e261e] text-[#D7D7D0] text-xs font-medium shadow-sm transition border border-[#CCAB7A]/40"
+                href="#"
+            >
+                <span
+                    class="material-symbols-outlined text-[18px] text-[#CCAB7A]"
+                >
+                    grid_view
+                </span>
+
+                <span class="font-medium text-[#D7D7D0]">
+                    Salão &amp; Mesas
+                </span>
+            </a>
+
+
+            <!-- Reservas -->
+
+            <a
+                id="openReservationsButton"
+                class="flex items-center justify-between px-3 py-2.5 rounded-xl text-[#D7D7D0]/70 hover:text-[#D7D7D0] hover:bg-[#1b231b] text-xs font-medium transition"
+                href="#"
+            >
+
+                <div class="flex items-center gap-3">
+
+                    <span class="material-symbols-outlined text-[18px]">
+                        calendar_today
+                    </span>
+
+                    <span>
+                        Reservas &amp; Espera
+                    </span>
+
+                </div>
+
+                <span
+                    class="px-1.5 py-0.2 rounded-full bg-[#1b231b] border border-[#404125] text-[10px] text-[#CCAB7A] font-mono"
+                >
+                    3
+                </span>
+
+            </a>
+
+
+            <!-- Configuração -->
+
+            <a
+                id="openConfigButton"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#D7D7D0]/70 hover:text-[#D7D7D0] hover:bg-[#1b231b] text-xs font-medium transition group"
+                href="#"
+            >
+
+                <span
+                    class="material-symbols-outlined text-[18px] group-hover:text-[#CCAB7A] transition"
+                >
+                    tune
+                </span>
+
+                <span>
+                    Configurar Restaurante
+                </span>
+
+            </a>
+
+        </nav>
+
+    </div>
+
+
+    <!-- Sidebar Bottom -->
+
+    <div
+        class="p-4 space-y-3 border-t border-[#404125]/40"
+    >
+
+        <!-- Ajustes -->
+
+        <button
+            id="openConfigSidebarButton"
+            type="button"
+            class="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl border border-[#404125]/80 hover:border-[#CCAB7A]/50 bg-[#1b231b]/60 hover:bg-[#1b231b] text-[#D7D7D0]/80 hover:text-[#D7D7D0] text-xs font-medium transition"
+        >
+
+            <span
+                class="material-symbols-outlined text-[16px] text-[#CCAB7A]"
+            >
+                settings
+            </span>
+
+            <span>
+                Ajustes do Salão
+            </span>
+
+        </button>
+
+
+        <!-- Profile -->
+
+        <div
+            class="flex items-center justify-between pt-2 border-t border-[#404125]/30"
+        >
+
+            <div class="flex items-center gap-2.5">
+
+                <div
+                    class="w-7 h-7 rounded-full bg-[#1b231b] border border-[#404125] flex items-center justify-center text-[11px] font-semibold text-[#D7D7D0]"
+                >
+                    CL
+                </div>
+
+                <div class="flex flex-col">
+
+                    <span
+                        class="text-xs font-medium text-[#D7D7D0] leading-tight"
+                    >
+                        Chang Ling
+                    </span>
+
+                    <span
+                        class="text-[10px] text-[#767C53] flex items-center gap-1 font-medium"
+                    >
+                        <span
+                            class="w-1.5 h-1.5 rounded-full bg-[#767C53] inline-block"
+                        ></span>
+
+                        Ativo
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================================================
+     MAIN AREA
+========================================================= -->
+
+<div
+    class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#121712]"
+>
+
+
+    <!-- =====================================================
+         TOPBAR
+    ====================================================== -->
+
+    <header
+        class="h-16 px-8 border-b border-[#404125]/50 bg-[#151b15]/75 backdrop-blur-md flex items-center justify-between shrink-0"
+    >
+
+        <!-- Metrics + Filters -->
+
+        <div class="flex items-center gap-6">
+
+            <!-- Metrics -->
+
+            <div
+                class="flex items-center gap-4 text-xs font-medium"
+            >
+
+                <!-- Free -->
+
+                <div class="flex items-center gap-2">
+
+                    <span
+                        class="w-2 h-2 rounded-full bg-[#767C53]"
+                    ></span>
+
+                    <span class="text-[#D7D7D0]/70">
+                        Livres:
+                    </span>
+
+                    <span
+                        class="text-[#D7D7D0] font-semibold"
+                        id="top-free"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <span class="text-[#404125] font-light">
+                    •
+                </span>
+
+
+                <!-- Occupied -->
+
+                <div class="flex items-center gap-2">
+
+                    <span
+                        class="w-2 h-2 rounded-full"
+                        style="background-color: rgb(192, 48, 39);"
+                    ></span>
+
+                    <span class="text-[#D7D7D0]/70">
+                        Ocupadas:
+                    </span>
+
+                    <span
+                        class="text-[#D7D7D0] font-semibold"
+                        id="top-occupied"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <span class="text-[#404125] font-light">
+                    •
+                </span>
+
+
+                <!-- Reserved -->
+
+                <div class="flex items-center gap-2">
+
+                    <span
+                        class="w-2 h-2 rounded-full bg-[#CCAB7A]"
+                    ></span>
+
+                    <span class="text-[#D7D7D0]/70">
+                        Reservadas:
+                    </span>
+
+                    <span
+                        class="text-[#D7D7D0] font-semibold"
+                        id="top-reserved"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <span class="text-[#404125] font-light">
+                    •
+                </span>
+
+
+                <!-- Cleaning -->
+
+                <div class="flex items-center gap-2">
+
+                    <span
+                        class="w-2 h-2 rounded-full bg-[#404125] ring-1 ring-[#CCAB7A]/40"
+                    ></span>
+
+                    <span class="text-[#D7D7D0]/70">
+                        Limpeza:
+                    </span>
+
+                    <span
+                        class="text-[#D7D7D0] font-semibold"
+                        id="top-cleaning"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Divider -->
+
+            <div
+                class="h-4 w-px bg-[#404125]/60 hidden md:block"
+            ></div>
+
+
+            <!-- Filters -->
+
+            <div
+                class="hidden md:flex items-center gap-1 bg-[#151b15] p-1 rounded-xl border border-[#404125]/70"
+            >
+
+                <button
+                    class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium transition bg-[#767C53]/30 text-[#D7D7D0] border border-[#767C53]/50"
+                    id="btn-filter-all"
+                    type="button"
+                >
+                    Todos
+                </button>
+
+                <button
+                    class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition"
+                    id="btn-filter-free"
+                    type="button"
+                >
+                    Livres
+                </button>
+
+                <button
+                    class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition"
+                    id="btn-filter-occupied"
+                    type="button"
+                >
+                    Ocupadas
+                </button>
+
+                <button
+                    class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition"
+                    id="btn-filter-reserved"
+                    type="button"
+                >
+                    Reservadas
+                </button>
+
+                <button
+                    class="filter-btn px-2.5 py-1 text-xs rounded-lg font-medium text-[#D7D7D0]/70 hover:text-[#D7D7D0] transition"
+                    id="btn-filter-cleaning"
+                    type="button"
+                >
+                    Limpeza
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- New Reservation -->
+
+        <div
+            class="flex items-center gap-4 pl-4 shrink-0"
+        >
+
+            <div
+                class="h-4 w-px bg-[#404125]/60 hidden md:block"
+            ></div>
+
+            <button
+                id="openReservationButton"
+                type="button"
+                class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#CCAB7A] hover:bg-[#d8bb8c] text-[#121712] font-semibold text-xs shadow-md shadow-[#121712]/50 transition border border-[#CCAB7A]"
+            >
+
+                <span class="material-symbols-outlined text-[16px]">
+                    add
+                </span>
+
+                <span>
+                    Nova Reserva / Mesa
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN FLOOR
+    ====================================================== -->
+
+    <main
+        class="flex-1 overflow-y-auto p-8 lg:p-12 flex flex-col justify-between"
+    >
+
+        <div
+            class="max-w-6xl mx-auto w-full"
+        >
+
+            <!-- Floor Header -->
+
+            <div
+                class="flex items-center justify-between mb-8"
+            >
+
+                <div>
+
+                    <h2
+                        class="text-base font-semibold text-[#D7D7D0] tracking-tight"
+                    >
+                        Salão Principal
+                    </h2>
+
+                    <p
+                        class="text-xs text-[#D7D7D0]/50"
+                    >
+                        8 Mesas • Selecione uma mesa para alterar o status ou gerenciar
+                    </p>
+
+                </div>
+
+
+                <!-- Legend -->
+
+                <div
+                    class="flex items-center gap-4 text-xs text-[#D7D7D0]/70"
+                >
+
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-2 h-2 rounded-full bg-[#767C53]"
+                        ></span>
+                        Livre
+                    </span>
+
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-2 h-2 rounded-full"
+                            style="background-color: rgb(192, 48, 39);"
+                        ></span>
+                        Ocupada
+                    </span>
+
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-2 h-2 rounded-full bg-[#CCAB7A]"
+                        ></span>
+                        Reservada
+                    </span>
+
+                    <span class="flex items-center gap-1.5">
+                        <span
+                            class="w-2 h-2 rounded-full bg-[#404125] ring-1 ring-[#CCAB7A]/40"
+                        ></span>
+                        Limpeza
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 TABLES CONTAINER
+
+                 As mesas são criadas pelo table-ui.js
+            ================================================== -->
+
+            <div
+                id="tablesContainer"
+                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            ></div>
+
+        </div>
+
+
+        <!-- Bottom Bar -->
+
+        <div
+            class="max-w-6xl mx-auto w-full pt-8 flex items-center justify-between text-xs text-[#D7D7D0]/60 border-t border-[#404125]/40"
+        >
+
+            <span id="quick-occupancy-txt">
+                Ocupação Atual: 0%
+            </span>
+
+            <span>
+                Sincronizado às
+
+                <span
+                    class="font-mono text-[#CCAB7A]"
+                    id="syncTime"
+                >
+                    --:--
+                </span>
+            </span>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     TABLE DETAILS DRAWER
+========================================================= -->
+
+<div
+    id="tableDrawerModal"
+    class="fixed inset-0 bg-[#121712]/80 backdrop-blur-sm z-50 flex items-center justify-end hidden transition-opacity"
+>
+
+    <div
+        class="w-full max-w-sm h-full bg-[#151b15] border-l border-[#404125] p-6 flex flex-col justify-between shadow-2xl"
+    >
+
+        <div class="space-y-6">
+
+            <!-- Header -->
+
+            <div
+                class="flex items-center justify-between"
+            >
+
+                <div>
+
+                    <h3
+                        class="text-lg font-semibold text-[#D7D7D0] tracking-tight"
+                        id="drawerTableTitle"
+                    >
+                        Mesa
+                    </h3>
+
+                    <p
+                        class="text-xs text-[#D7D7D0]/60"
+                        id="drawerTableSubtitle"
+                    >
+                        Capacidade: -- pessoas
+                    </p>
+
+                </div>
+
+
+                <button
+                    id="closeTableDrawerButton"
+                    type="button"
+                    class="w-8 h-8 rounded-lg bg-[#1b231b] border border-[#404125] text-[#D7D7D0]/70 hover:text-[#D7D7D0] flex items-center justify-center transition"
+                >
+
+                    <span class="material-symbols-outlined text-[18px]">
+                        close
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <!-- Current Status -->
+
+            <div
+                class="p-3.5 rounded-xl bg-[#121712] border border-[#404125]/70 flex items-center justify-between"
+            >
+
+                <span class="text-xs text-[#D7D7D0]/70">
+                    Status
+                </span>
+
+                <span
+                    id="drawerStatusBadge"
+                    class="text-xs font-semibold px-2.5 py-1 rounded-full"
+                >
+                    --
+                </span>
+
+            </div>
+
+
+            <!-- Information -->
+
+            <div class="space-y-3">
+
+                <span
+                    class="text-xs uppercase tracking-wider text-[#CCAB7A] font-semibold"
+                >
+                    Informações
+                </span>
+
+                <div
+                    class="p-4 rounded-xl bg-[#121712] border border-[#404125]/70 space-y-2.5 text-xs"
+                >
+
+                    <div class="flex justify-between">
+
+                        <span class="text-[#D7D7D0]/60">
+                            Cliente / Reserva:
+                        </span>
+
+                        <span
+                            class="font-medium text-[#D7D7D0]"
+                            id="drawerGuestName"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="flex justify-between">
+
+                        <span class="text-[#D7D7D0]/60">
+                            Horário:
+                        </span>
+
+                        <span
+                            class="font-mono text-[#D7D7D0]"
+                            id="drawerTimeIn"
+                        >
+                            --:--
+                        </span>
+
+                    </div>
+
+
+                    <div class="flex justify-between">
+
+                        <span class="text-[#D7D7D0]/60">
+                            Comanda:
+                        </span>
+
+                        <span
+                            class="font-mono font-medium text-[#CCAB7A]"
+                            id="drawerTotalBill"
+                        >
+                            R$ 0,00
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Status -->
+
+            <div class="space-y-2">
+
+                <span
+                    class="text-xs uppercase tracking-wider text-[#CCAB7A] font-semibold"
+                >
+                    Alterar Status
+                </span>
+
+                <div class="grid grid-cols-2 gap-2">
+
+                    <button
+                        class="drawer-status-btn p-2.5 rounded-xl border border-[#767C53]/40 hover:bg-[#767C53]/20 text-[#a2ab72] text-xs font-medium transition flex items-center justify-center gap-2"
+                        data-status="free"
+                        type="button"
+                    >
+                        <span
+                            class="w-2 h-2 rounded-full bg-[#767C53]"
+                        ></span>
+                        Livre
+                    </button>
+
+
+                    <button
+                        class="drawer-status-btn p-2.5 rounded-xl border border-[#D7D7D0]/40 hover:bg-[#D7D7D0]/10 text-[#D7D7D0] text-xs font-medium transition flex items-center justify-center gap-2"
+                        data-status="occupied"
+                        type="button"
+                    >
+                        <span
+                            class="w-2 h-2 rounded-full"
+                            style="background-color: rgb(192, 48, 39);"
+                        ></span>
+                        Ocupada
+                    </button>
+
+
+                    <button
+                        class="drawer-status-btn p-2.5 rounded-xl border border-[#CCAB7A]/50 hover:bg-[#CCAB7A]/20 text-[#CCAB7A] text-xs font-medium transition flex items-center justify-center gap-2"
+                        data-status="reserved"
+                        type="button"
+                    >
+                        <span
+                            class="w-2 h-2 rounded-full bg-[#CCAB7A]"
+                        ></span>
+                        Reservada
+                    </button>
+
+
+                    <button
+                        class="drawer-status-btn p-2.5 rounded-xl border border-[#404125] hover:bg-[#404125]/40 text-[#D7D7D0]/80 text-xs font-medium transition flex items-center justify-center gap-2"
+                        data-status="cleaning"
+                        type="button"
+                    >
+                        <span
+                            class="w-2 h-2 rounded-full bg-[#404125] ring-1 ring-[#CCAB7A]/40"
+                        ></span>
+                        Limpeza
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <div
+            class="pt-4 border-t border-[#404125]/40"
+        >
+
+            <button
+                id="closeTableDrawerFooterButton"
+                type="button"
+                class="w-full py-2.5 bg-[#1b231b] hover:bg-[#222b22] border border-[#404125] text-[#D7D7D0] hover:text-white text-xs font-medium rounded-xl transition"
+            >
+                Fechar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     NEW RESERVATION MODAL
+========================================================= -->
+
+<div
+    id="newReservationModal"
+    class="fixed inset-0 bg-[#121712]/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
+>
+
+    <div
+        class="w-full max-w-sm bg-[#151b15] border border-[#404125] rounded-2xl p-6 shadow-2xl space-y-4"
+    >
+
+        <div
+            class="flex items-center justify-between"
+        >
+
+            <h3
+                class="text-sm font-semibold text-[#D7D7D0]"
+            >
+                Nova Abertura / Reserva
+            </h3>
+
+            <button
+                id="closeNewReservationButton"
+                type="button"
+                class="text-[#D7D7D0]/60 hover:text-[#D7D7D0]"
+            >
+
+                <span class="material-symbols-outlined text-[18px]">
+                    close
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <form
+            id="newReservationForm"
+            class="space-y-3 text-xs"
+        >
+
+            <!-- Guest -->
+
+            <div>
+
+                <label
+                    class="block text-[#D7D7D0]/70 mb-1"
+                    for="newGuestName"
+                >
+                    Nome do Cliente
+                </label>
+
+                <input
+                    id="newGuestName"
+                    class="w-full bg-[#121712] border border-[#404125] rounded-xl px-3 py-2 text-[#D7D7D0] placeholder-[#D7D7D0]/30 focus:outline-none focus:border-[#CCAB7A]"
+                    placeholder="Ex: Felipe Amorim"
+                    required
+                    type="text"
+                >
+
+            </div>
+
+
+            <!-- Party + Table -->
+
+            <div class="grid grid-cols-2 gap-2">
+
+                <div>
+
+                    <label
+                        class="block text-[#D7D7D0]/70 mb-1"
+                        for="newGuestParty"
+                    >
+                        Pessoas
+                    </label>
+
+                    <select
+                        id="newGuestParty"
+                        class="w-full bg-[#121712] border border-[#404125] rounded-xl px-2.5 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]"
+                    >
+
+                        <option value="2">
+                            2 Lugares
+                        </option>
+
+                        <option selected value="4">
+                            4 Lugares
+                        </option>
+
+                        <option value="6">
+                            6 Lugares
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label
+                        class="block text-[#D7D7D0]/70 mb-1"
+                        for="newGuestTable"
+                    >
+                        Mesa
+                    </label>
+
+                    <select
+                        id="newGuestTable"
+                        class="w-full bg-[#121712] border border-[#404125] rounded-xl px-2.5 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]"
+                    >
+
+                        <option value="T03">
+                            Mesa 03 (4 lug.)
+                        </option>
+
+                        <option value="T04">
+                            Mesa 04 (2 lug.)
+                        </option>
+
+                        <option value="T07">
+                            Mesa 07 (2 lug.)
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- Type -->
+
+            <div>
+
+                <label
+                    class="block text-[#D7D7D0]/70 mb-1"
+                >
+                    Tipo
+                </label>
+
+                <div class="grid grid-cols-2 gap-2">
+
+                    <label
+                        class="flex items-center gap-2 p-2 rounded-xl bg-[#121712] border border-[#404125] cursor-pointer hover:border-[#CCAB7A]/50"
+                    >
+
+                        <input
+                            checked
+                            class="text-[#CCAB7A] focus:ring-0"
+                            name="resType"
+                            type="radio"
+                            value="occupied"
+                        >
+
+                        <span>
+                            Sentar Agora
+                        </span>
+
+                    </label>
+
+
+                    <label
+                        class="flex items-center gap-2 p-2 rounded-xl bg-[#121712] border border-[#404125] cursor-pointer hover:border-[#CCAB7A]/50"
+                    >
+
+                        <input
+                            class="text-[#CCAB7A] focus:ring-0"
+                            name="resType"
+                            type="radio"
+                            value="reserved"
+                        >
+
+                        <span>
+                            Agendar
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <!-- Actions -->
+
+            <div
+                class="pt-3 flex items-center justify-end gap-2"
+            >
+
+                <button
+                    id="cancelNewReservationButton"
+                    class="px-3 py-2 text-[#D7D7D0]/60 hover:text-[#D7D7D0] transition"
+                    type="button"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    class="px-4 py-2 bg-[#CCAB7A] hover:bg-[#d8bb8c] text-[#121712] font-semibold rounded-xl transition shadow"
+                    type="submit"
+                >
+                    Confirmar
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CONFIG MODAL
+========================================================= -->
+
+<div
+    id="configModal"
+    class="fixed inset-0 bg-[#121712]/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
+>
+
+    <div
+        class="w-full max-w-md bg-[#151b15] border border-[#404125] rounded-2xl p-6 shadow-2xl space-y-5"
+    >
+
+        <div
+            class="flex items-center justify-between"
+        >
+
+            <div class="flex items-center gap-2.5">
+
+                <div
+                    class="w-8 h-8 rounded-lg bg-[#1b231b] border border-[#404125] flex items-center justify-center text-[#CCAB7A]"
+                >
+                    <span class="material-symbols-outlined text-[18px]">
+                        tune
+                    </span>
+                </div>
+
+                <div>
+
+                    <h3
+                        class="text-sm font-semibold text-[#D7D7D0]"
+                    >
+                        Configurar Restaurante
+                    </h3>
+
+                    <p
+                        class="text-[11px] text-[#D7D7D0]/60"
+                    >
+                        Ajustes gerais do salão e operação
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="closeConfigButton"
+                type="button"
+                class="text-[#D7D7D0]/60 hover:text-[#D7D7D0]"
+            >
+
+                <span class="material-symbols-outlined text-[18px]">
+                    close
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <div class="space-y-4 text-xs">
+
+            <!-- Restaurant name -->
+
+            <div>
+
+                <label
+                    class="block text-[#D7D7D0]/70 mb-1"
+                    for="restaurantName"
+                >
+                    Nome do Restaurante
+                </label>
+
+                <input
+                    id="restaurantName"
+                    class="w-full bg-[#121712] border border-[#404125] rounded-xl px-3 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]"
+                    type="text"
+                    value="tēburu"
+                >
+
+            </div>
+
+
+            <!-- Capacity -->
+
+            <div class="grid grid-cols-2 gap-3">
+
+                <div>
+
+                    <label
+                        class="block text-[#D7D7D0]/70 mb-1"
+                        for="restaurantCapacity"
+                    >
+                        Capacidade Total
+                    </label>
+
+                    <input
+                        id="restaurantCapacity"
+                        class="w-full bg-[#121712]/70 border border-[#404125]/70 rounded-xl px-3 py-2 text-[#D7D7D0]/70"
+                        readonly
+                        type="text"
+                        value="8 Mesas • 30 Lugares"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label
+                        class="block text-[#D7D7D0]/70 mb-1"
+                        for="averageTableTime"
+                    >
+                        Tempo Médio de Mesa
+                    </label>
+
+                    <input
+                        id="averageTableTime"
+                        class="w-full bg-[#121712] border border-[#404125] rounded-xl px-3 py-2 text-[#D7D7D0] focus:outline-none focus:border-[#CCAB7A]"
+                        type="text"
+                        value="1h 30m"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Options -->
+
+            <div
+                class="p-3 bg-[#121712] rounded-xl border border-[#404125]/80 space-y-2"
+            >
+
+                <div class="flex items-center justify-between">
+
+                    <span class="text-[#D7D7D0]/80">
+                        Notificar limpeza automática
+                    </span>
+
+                    <input
+                        id="autoCleaningNotification"
+                        checked
+                        class="rounded border-[#404125] bg-[#1b231b] text-[#767C53] focus:ring-0"
+                        type="checkbox"
+                    >
+
+                </div>
+
+
+                <div class="flex items-center justify-between">
+
+                    <span class="text-[#D7D7D0]/80">
+                        Aceitar reservas simultâneas
+                    </span>
+
+                    <input
+                        id="simultaneousReservations"
+                        checked
+                        class="rounded border-[#404125] bg-[#1b231b] text-[#CCAB7A] focus:ring-0"
+                        type="checkbox"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Actions -->
+
+        <div
+            class="pt-2 flex items-center justify-end gap-2 text-xs"
+        >
+
+            <button
+                id="cancelConfigButton"
+                class="px-3 py-2 text-[#D7D7D0]/60 hover:text-[#D7D7D0] transition"
+                type="button"
+            >
+                Fechar
+            </button>
+
+            <button
+                id="saveConfigButton"
+                class="px-4 py-2 bg-[#CCAB7A] hover:bg-[#d8bb8c] text-[#121712] font-semibold rounded-xl transition shadow"
+                type="button"
+            >
+                Salvar Alterações
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     RESERVATIONS LIST MODAL
+========================================================= -->
+
+<div
+    id="reservationsListModal"
+    class="fixed inset-0 bg-[#121712]/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
+>
+
+    <div
+        class="w-full max-w-md bg-[#151b15] border border-[#404125] rounded-2xl p-6 shadow-2xl space-y-4"
+    >
+
+        <div
+            class="flex items-center justify-between"
+        >
+
+            <div>
+
+                <h3
+                    class="text-sm font-semibold text-[#D7D7D0]"
+                >
+                    Reservas &amp; Fila de Espera
+                </h3>
+
+                <p
+                    class="text-[11px] text-[#D7D7D0]/60"
+                >
+                    Atendimento do turno da noite
+                </p>
+
+            </div>
+
+
+            <button
+                id="closeReservationsButton"
+                type="button"
+                class="text-[#D7D7D0]/60 hover:text-[#D7D7D0]"
+            >
+
+                <span class="material-symbols-outlined text-[18px]">
+                    close
+                </span>
+
+            </button>
+
+        </div>
+
+
+        <!-- Reservations -->
+
+        <div class="space-y-2 text-xs">
+
+            <!-- Reservation 1 -->
+
+            <div
+                class="p-3 bg-[#121712] rounded-xl border border-[#CCAB7A]/50 flex items-center justify-between"
+            >
+
+                <div>
+
+                    <span
+                        class="font-medium text-[#D7D7D0]"
+                    >
+                        Sarah K. (4 pessoas)
+                    </span>
+
+                    <p
+                        class="text-[11px] text-[#CCAB7A]"
+                    >
+                        Mesa 06 • Chegada prevista: 20:15
+                    </p>
+
+                </div>
+
+                <span
+                    class="px-2 py-0.5 rounded text-[10px] bg-[#CCAB7A]/20 text-[#CCAB7A] border border-[#CCAB7A]/40 font-mono"
+                >
+                    Reserva
+                </span>
+
+            </div>
+
+
+            <!-- Queue 1 -->
+
+            <div
+                class="p-3 bg-[#121712] rounded-xl border border-[#404125] flex items-center justify-between"
+            >
+
+                <div>
+
+                    <span
+                        class="font-medium text-[#D7D7D0]"
+                    >
+                        Carlos Mendes (2 pessoas)
+                    </span>
+
+                    <p
+                        class="text-[11px] text-[#D7D7D0]/60"
+                    >
+                        Aguardando mesa de 2 lugares • 10 min
+                    </p>
+
+                </div>
+
+                <span
+                    class="px-2 py-0.5 rounded text-[10px] bg-[#1b231b] border border-[#404125] text-[#D7D7D0]/80 font-mono"
+                >
+                    Fila 1
+                </span>
+
+            </div>
+
+
+            <!-- Queue 2 -->
+
+            <div
+                class="p-3 bg-[#121712] rounded-xl border border-[#404125] flex items-center justify-between"
+            >
+
+                <div>
+
+                    <span
+                        class="font-medium text-[#D7D7D0]"
+                    >
+                        Beatriz Lima (4 pessoas)
+                    </span>
+
+                    <p
+                        class="text-[11px] text-[#D7D7D0]/60"
+                    >
+                        Aguardando mesa de 4 lugares • 5 min
+                    </p>
+
+                </div>
+
+                <span
+                    class="px-2 py-0.5 rounded text-[10px] bg-[#1b231b] border border-[#404125] text-[#D7D7D0]/80 font-mono"
+                >
+                    Fila 2
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Footer -->
+
+        <div
+            class="pt-2 flex justify-end text-xs"
+        >
+
+            <button
+                id="closeReservationsFooterButton"
+                class="px-4 py-2 bg-[#1b231b] hover:bg-[#222b22] border border-[#404125] text-[#D7D7D0] font-medium rounded-xl transition"
+                type="button"
+            >
+                Fechar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
+
+<script
+    type="module"
+    src="./js/app.js"
+></script>
+
+</body>
+</html>
